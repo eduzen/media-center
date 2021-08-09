@@ -2,7 +2,7 @@ version: "3"
 
 services:
   plex:
-    image: ghcr.io/linuxserver/plex
+    image: ghcr.io/linuxserver/plex:arm32v7-version-1.23.6.4881-e2e58f321
     restart: always
     network_mode: bridge
     privileged: true
@@ -39,7 +39,7 @@ services:
 
 
   transmission:
-    image: ghcr.io/linuxserver/transmission
+    image: ghcr.io/linuxserver/transmission:arm32v7-version-3.00-r2
     restart: always
     environment:
       - PUID=1000
