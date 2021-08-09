@@ -40,6 +40,22 @@ services:
       - 51413:51413
       - 51413:51413/udp
 
+  qbittorrent:
+    image: ghcr.io/linuxserver/qbittorrent
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+      - WEBUI_PORT=8080
+    volumes:
+      - ./qbittorrent/config:/config
+      - /mnt/usb/torrents:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8080:8080
+
   flexget:
     image: wiserain/flexget
     restart: always
