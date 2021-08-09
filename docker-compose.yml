@@ -2,41 +2,22 @@ version: "3"
 
 services:
   plex:
-    image: ghcr.io/linuxserver/plex:arm32v7-version-1.23.6.4881-e2e58f321
+    image: ghcr.io/linuxserver/plex:1.23.6.4881-e2e58f321-ls66
     restart: always
-    network_mode: bridge
+    network_mode: host
     privileged: true
     environment:
       - TZ=Europe/Amsterdam
       - VERSION=docker
       - PUID=1000
       - PGID=1000
-      - PLEX_CLAIM=${PLEX_CLAIM}
+      # - PLEX_CLAIM=${PLEX_CLAIM}
     volumes:
       - ./plex/config:/config
       - /mnt/usb/plex/transcode:/transcode # this is not strictly necessary, but I've configured Plex to use this directory for transcoding. Should make it easier to backup only the configuration and not transcoding artifacts.
-      - /mnt/usb/Series:/tv
+      - /mnt/usb/Series:/sdcard/tv
       - /mnt/usb/Movies:/movies
       - /mnt/usb/Musica:/music
-    ports:
-      # Port listing from Plex website as of 2019-08-18.
-      # https://support.plex.tv/articles/201543147-what-network-ports-do-i-need-to-allow-through-my-firewall/
-      # Disabled 1900 and 5353 as of 2019-08-18.
-      # Was running into some sort of conflict when trying to map them with bridge mode.
-      # Something else on the NAS is using those ports -- home assistant perhaps?
-      # The ports are for Plex services I don't necessarily need, so they are disabled for now.
-      # - "1900:1900/udp" # (for access to the Plex DLNA Server)
-      # - "5353:5353/udp" # (for older Bonjour/Avahi network discovery)
-
-      - "32400:32400" # (for access to the Plex Media Server) [required]
-      - "3005:3005" # (for controlling Plex Home Theater via Plex Companion)
-      - "8324:8324" # (for controlling Plex for Roku via Plex Companion)
-      - "32410:32410/udp" # (for current GDM network discovery)
-      - "32412:32412/udp" # (for current GDM network discovery)
-      - "32413:32413/udp" # (for current GDM network discovery)
-      - "32414:32414/udp" # (for current GDM network discovery)
-      - "32469:32469" # (for access to the Plex DLNA Server)
-
 
   transmission:
     image: ghcr.io/linuxserver/transmission:arm32v7-version-3.00-r2
