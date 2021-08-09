@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+  plex:
+    image: ghcr.io/linuxserver/plex
+    restart: always
+    privileged: true
+    environment:
+      - TZ=Europe/Amsterdam
+      - VERSION=docker
+      - PUID=1000
+      - PGID=1000
+      - PLEX_CLAIM=${PLEX_CLAIM}
+    volumes:
+      - ./config:/config
+      - /mnt/usb/Series:/tv
+      - /mnt/usb/Movies:/movies
+      - /mnt/usb/Musica:/music
+
+#  transmission:
+#    image: ghcr.io/linuxserver/transmission
+#    restart: always
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=Europe/Amsterdam
+#      - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
+#      - USER=${USER} #optional
+#      - PASS=${PASS} #optional
+#      - WHITELIST=iplist #optional
+#      - HOST_WHITELIST=dnsnane list #optional
+#    volumes:
+#      - ./transmission/:/config
+#      - /mnt/usb/torrents:/downloads
+#    ports:
+#      - 9091:9091
+#      - 51413:51413
+#      - 51413:51413/udp
+#
+#  flexget:
+#     image: wiserain/flexget
+#     restart: always
+#     environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=Europe/Amsterdam
+#      - FG_LOG_FILE=flexget.log
+#      - FG_WEBUI_PASSWD=${PASS}
+#      - FG_LOG_LEVEL=info
+#    ports:
+#      - 5050:5050
+#    volumes:
+#      - ./flexget:/config
+#      - /mnt/usb/torrents:/downloads
+#      - /mnt/usb/Series:/data
+#      - /mnt/usb/Movies:/data
+#      - /mnt/usb/Musica:/data
