@@ -28,9 +28,9 @@ services:
       - PGID=1000
       - TZ=Europe/Amsterdam
       - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
-      - USER=${USER} #optional
-      - PASS=${PASS} #optional
-      - WHITELIST="192.168.*.*" #optional
+      - USER=eduzen # ${USER} #optional
+      - PASS=seguro # ${PASS} #optional
+      - WHITELIST=192.168.*.* #optional
       # - HOST_WHITELIST=dnsnane list #optional
     volumes:
       - ./transmission/:/config

@@ -131,4 +131,6 @@ dmypy.json
 
 plex/*
 transmission/*
+!transmission/settings.json
+
 flexget/*
