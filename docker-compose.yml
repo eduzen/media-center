@@ -50,7 +50,7 @@ services:
       - WEBUI_PORT=8080
     volumes:
       - ./qbittorrent/config:/config
-      - /mnt/usb/torrents:/downloads
+      - /mnt/usb/downloads:/downloads
     ports:
       - 6881:6881
       - 6881:6881/udp
