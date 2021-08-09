@@ -29,7 +29,7 @@ services:
       - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
       - USER=${USER} #optional
       - PASS=${PASS} #optional
-      - WHITELIST=iplist #optional
+      - WHITELIST="192.168.*.* 127.0.0.1" #optional
       - HOST_WHITELIST=dnsnane list #optional
     volumes:
       - ./transmission/:/config
