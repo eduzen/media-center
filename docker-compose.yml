@@ -20,6 +20,7 @@ services:
       - /mnt/usb/Musica:/music
       - ${MEDIA}:/media
       - ${STORAGE}/tmp:/tmp
+      - ${STORAGE}/downloads:/downloads
       - ${STORAGE}/Plex Media Server:/root/Library/Application Support/Plex Media Server
 
   transmission:
@@ -63,7 +64,7 @@ services:
     restart: unless-stopped
 
   subs:
-    build: ./subs/Dockerfile
+    build: ./subs/
     volumes:
       - ${MEDIA}:/media
       - ${STORAGE}/downloads:/downloads
