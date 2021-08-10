@@ -15,7 +15,7 @@ services:
     volumes:
       - ./plex/config:/config
       - /mnt/usb/plex/transcode:/transcode # this is not strictly necessary, but I've configured Plex to use this directory for transcoding. Should make it easier to backup only the configuration and not transcoding artifacts.
-      - /mnt/usb/Series:/sdcard/tv
+      - /mnt/usb/Series:/tv
       - /mnt/usb/Movies:/movies
       - /mnt/usb/Musica:/music
       - ${MEDIA}:/media
@@ -79,6 +79,7 @@ services:
     volumes:
       - ./qbittorrent/config:/config
       - ${STORAGE}/downloads:/downloads
+      - ${STORAGE}/tv:/downloads
     ports:
       - 6881:6881
       - 6881:6881/udp
