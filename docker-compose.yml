@@ -7,30 +7,28 @@ services:
     network_mode: host
     privileged: true
     environment:
-      - TZ=Europe/Amsterdam
       - VERSION=docker
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
       # - PLEX_CLAIM=${PLEX_CLAIM}
     volumes:
-      - ./plex/config:/config
-      - /mnt/usb/plex/transcode:/transcode # this is not strictly necessary, but I've configured Plex to use this directory for transcoding. Should make it easier to backup only the configuration and not transcoding artifacts.
+      - ${ROOT}/config/plex/db:/config # plex database
+      - ${ROOT}/config/plex/transcode:/transcode # temp transcoded files
+      - ${ROOT}/complete:/data # media library
+      - ${STORAGE}/Plex Media Server:/root/Library/Application Support/Plex Media Server
       - /mnt/usb/Series:/tv
       - /mnt/usb/Movies:/movies
       - /mnt/usb/Musica:/music
-      - ${MEDIA}:/media
-      - ${STORAGE}/tmp:/tmp
-      - ${STORAGE}/downloads:/downloads
-      - ${STORAGE}/Plex Media Server:/root/Library/Application Support/Plex Media Server
 
   transmission:
     image: ghcr.io/linuxserver/transmission:arm32v7-version-3.00-r2
     network_mode: host
     restart: always
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Amsterdam
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
       - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
       - USER=${USER} #optional
       - PASS=${PASS} #optional
@@ -52,35 +50,61 @@ services:
     image: ghcr.io/linuxserver/sonarr
     container_name: sonarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
     volumes:
-      - /path/to/data:/config
-      - ${MEDIA}:/tv #optional
-      - ${STORAGE}/downloads:/downloads #optional
+      - /etc/localtime:/etc/localtime:ro
+      - ${ROOT}/config/sonarr:/config # config files
+      - ${ROOT}/complete/tv:/tv # tv shows folder
+      - ${ROOT}/downloads:/downloads # download folder
     ports:
       - 8989:8989
     restart: unless-stopped
 
-  subs:
-    build: ./subs/
+  radarr:
+    container_name: radarr
+    image: linuxserver/radarr:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
     volumes:
-      - ${MEDIA}:/media
-      - ${STORAGE}/downloads:/downloads
+      - /etc/localtime:/etc/localtime:ro
+      - ${ROOT}/config/radarr:/config # config files
+      - ${ROOT}/complete/movies:/movies # movies folder
+      - ${ROOT}/downloads:/downloads # download folder
+
+  bazarr:
+    container_name: bazarr
+    image: linuxserver/bazarr
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+      - UMASK_SET=022 #optional
+    volumes:
+      - ${ROOT}/config/bazarr:/config # config files
+      - ${ROOT}/complete/movies:/movies # movies folder
+      - ${ROOT}/complete/tv:/tv # tv shows folder
+    ports:
+      - 6767:6767
 
   qbittorrent:
     image: ghcr.io/linuxserver/qbittorrent
     restart: always
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Amsterdam
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
       - WEBUI_PORT=8080
     volumes:
       - ./qbittorrent/config:/config
       - ${STORAGE}/downloads:/downloads
-      - ${STORAGE}/tv:/downloads
     ports:
       - 6881:6881
       - 6881:6881/udp
@@ -90,9 +114,9 @@ services:
     image: wiserain/flexget
     restart: always
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Amsterdam
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
       - FG_LOG_FILE=flexget.log
       - FG_WEBUI_PASSWD=${PASS}
       - FG_LOG_LEVEL=info
