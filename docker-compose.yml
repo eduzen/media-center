@@ -18,6 +18,9 @@ services:
       - /mnt/usb/Series:/sdcard/tv
       - /mnt/usb/Movies:/movies
       - /mnt/usb/Musica:/music
+      - ${MEDIA}:/media
+      - ${STORAGE}/tmp:/tmp
+      - ${STORAGE}/Plex Media Server:/root/Library/Application Support/Plex Media Server
 
   transmission:
     image: ghcr.io/linuxserver/transmission:arm32v7-version-3.00-r2
@@ -28,17 +31,42 @@ services:
       - PGID=1000
       - TZ=Europe/Amsterdam
       - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
-      - USER=eduzen # ${USER} #optional
-      - PASS=seguro # ${PASS} #optional
+      - USER=${USER} #optional
+      - PASS=${PASS} #optional
       - WHITELIST=192.168.*.* #optional
       # - HOST_WHITELIST=dnsnane list #optional
     volumes:
       - ./transmission/:/config
-      - /mnt/usb/torrents:/downloads
+      - ${STORAGE}/torrents:/downloads
+    expose:
+      - 9091
     ports:
       - 9091:9091
       - 51413:51413
+      - 49152:49152
+      - 65535:65535
       - 51413:51413/udp
+
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /path/to/data:/config
+      - ${MEDIA}:/tv #optional
+      - ${STORAGE}/downloads:/downloads #optional
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  subs:
+    build: ./subs/Dockerfile
+    volumes:
+      - ${MEDIA}:/media
+      - ${STORAGE}/downloads:/downloads
 
   qbittorrent:
     image: ghcr.io/linuxserver/qbittorrent
@@ -50,7 +78,7 @@ services:
       - WEBUI_PORT=8080
     volumes:
       - ./qbittorrent/config:/config
-      - /mnt/usb/downloads:/downloads
+      - ${STORAGE}/downloads:/downloads
     ports:
       - 6881:6881
       - 6881:6881/udp
