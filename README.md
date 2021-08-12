@@ -118,6 +118,6 @@ services:
     volumes:
       - ${CONFIGS}/plex:/config
       - ${CONFIGS}/plex/transcode:/transcode
-      - ${DOWNLOADS}/complete/movies:/movies
-      - ${DOWNLOADS}/complete/tv:/tv
+      - ${DOWNLOADS}/completed/movies:/movies
+      - ${DOWNLOADS}/completed/tv:/tv
 ```
