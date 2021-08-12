@@ -1,11 +1,11 @@
 # Media center
 
-plex
-qbittorrent
-radarr: for automaticly having movies
-sonarr: for automaticly having tv shows
-Bazarr: is a companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements.
-jackett:  is a companion application to Sonarr and Radarr. Scraps torrents sites looking for the things that you want
+- plex
+- qbittorrent
+- radarr: for automaticly having movies
+- sonarr: for automaticly having tv shows
+- Bazarr: is a companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements.
+- jackett:  is a companion application to Sonarr and Radarr. Scraps torrents sites looking for the things that you want
 
 ```yaml
 version: "3.9"
