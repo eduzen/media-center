@@ -110,7 +110,6 @@ services:
       - ${CONFIGS}/plex/transcode:/transcode
       - ${DOWNLOADS}/complete/movies:/movies
       - ${DOWNLOADS}/complete/tv:/tv
-      - ${DOWNLOADS}/complete/tv:/tv
 
 
   # flexget:
