@@ -1,115 +1,117 @@
-version: "3"
+version: "3.9"
 
 services:
-
   qbittorrent:
     image: ghcr.io/linuxserver/qbittorrent
     restart: always
     environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
       - WEBUI_PORT=8080
     volumes:
-      - ./qbittorrent/config:/config
+      - ${CONFIGS}/qbittorrent/:/config
       - ${DOWNLOADS}:/downloads
     ports:
       - 6881:6881
       - 6881:6881/udp
       - 8080:8080
 
+  # Feeds with torrents to radarr and sonarr
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022
+      # - RUN_OPTS=run options here #optional
+    volumes:
+      - ${CONFIGS}/jackett/:/config
+      - ${DOWNLOADS}/blackhole:/downloads
+    ports:
+      - 9117:9117
+
+
+  # for automaticly having movies
+  radarr:
+    image: linuxserver/radarr:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${CONFIGS}/radarr:/config
+      - ${DOWNLOADS}/completed/movies:/movies # movies folder
+      - ${DOWNLOADS}:/downloads # download folder
+    links:
+      - qbittorrent
+      - jackett
+    ports:
+      - 7878:7878
+
+  # For automaticly having tv shows
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${CONFIGS}/sonarr:/config
+      - ${DOWNLOADS}/completed/tv:/tv
+      - ${DOWNLOADS}:/downloads
+    ports:
+      - 8989:8989
+    links:
+      - jackett
+      - qbittorrent
+
+  # Bazarr is a companion application to Sonarr and Radarr.
+  # It can manage and download subtitles based on your requirements.
+  # You define your preferences by TV show or movie and Bazarr takes care of everything for you.
+  bazarr:
+    image: linuxserver/bazarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022
+    volumes:
+      - ${CONFIGS}/bazarr:/config
+      - ${DOWNLOADS}/complete/movies:/movies
+      - ${DOWNLOADS}/complete/tv:/tv
+    ports:
+      - 6767:6767
+    links:
+      - sonarr
+      - radarr
+
+
   plex:
-    image: ghcr.io/linuxserver/plex:1.23.6.4881-e2e58f321-ls66
+    image: ghcr.io/linuxserver/plex
     restart: always
     network_mode: host
     privileged: true
     environment:
       - VERSION=docker
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
       # - PLEX_CLAIM=${PLEX_CLAIM}
     volumes:
-      - ${ROOT}/config/plex/db:/config # plex database
-      - ${ROOT}/config/plex/transcode:/transcode # temp transcoded files
-      - ${DOWNLOADS}:/data # media library
-      - ${ROOT}/plex:/root/Library/Application Support/Plex Media Server
-      - ${TV}:/tv
-      - ${MOVIES}:/movies
-      - ${MUSIC}:/music
+      - ${CONFIGS}/plex:/config
+      - ${CONFIGS}/plex/transcode:/transcode
+      - ${DOWNLOADS}/complete/movies:/movies
+      - ${DOWNLOADS}/complete/tv:/tv
+      - ${DOWNLOADS}/complete/tv:/tv
 
-  transmission:
-    image: ghcr.io/linuxserver/transmission:arm32v7-version-3.00-r2
-    network_mode: host
-    restart: always
-    environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
-      - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
-      - USER=${USER} #optional
-      - PASS=${PASS} #optional
-      - WHITELIST=192.168.*.* #optional
-      # - HOST_WHITELIST=dnsnane list #optional
-    volumes:
-      - ./transmission/:/config
-      - ${STORAGE}/torrents:/downloads
-    expose:
-      - 9091
-    ports:
-      - 9091:9091
-      - 51413:51413
-      - 49152:49152
-      - 65535:65535
-      - 51413:51413/udp
-
-  sonarr:
-    image: ghcr.io/linuxserver/sonarr
-    container_name: sonarr
-    environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${ROOT}/config/sonarr:/config # config files
-      - ${ROOT}/complete/tv:/tv # tv shows folder
-      - ${ROOT}/downloads:/downloads # download folder
-    ports:
-      - 8989:8989
-    restart: unless-stopped
-
-  radarr:
-    container_name: radarr
-    image: linuxserver/radarr:latest
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${ROOT}/config/radarr:/config # config files
-      - ${ROOT}/complete/movies:/movies # movies folder
-      - ${ROOT}/downloads:/downloads # download folder
-
-  # bazarr:
-  #   container_name: bazarr
-  #   image: linuxserver/bazarr
-  #   restart: unless-stopped
-  #   network_mode: host
-  #   environment:
-  #     - PUID=${PUID} # default user id, defined in .env
-  #     - PGID=${PGID} # default group id, defined in .env
-  #     - TZ=${TZ} # timezone, defined in .env
-  #     - UMASK_SET=022 #optional
-  #   volumes:
-  #     - ${ROOT}/config/bazarr:/config # config files
-  #     - ${ROOT}/complete/movies:/movies # movies folder
-  #     - ${ROOT}/complete/tv:/tv # tv shows folder
-  #   ports:
-  #     - 6767:6767
 
   # flexget:
   #   image: wiserain/flexget
