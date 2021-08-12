@@ -95,8 +95,8 @@ services:
       - UMASK_SET=022
     volumes:
       - ${CONFIGS}/bazarr:/config
-      - ${DOWNLOADS}/complete/movies:/movies
-      - ${DOWNLOADS}/complete/tv:/tv
+      - ${DOWNLOADS}/completed/movies:/movies
+      - ${DOWNLOADS}/completed/tv:/tv
     ports:
       - 6767:6767
     links:
