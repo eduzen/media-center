@@ -1,0 +1,9 @@
+{
+  "Base url if behind a Proxy. If not, leave as blank. (Base URL could be like: /WebTools)": "Bas-URL (om bakom en proxy \u2013 om inte, l\u00e4mna blankt).\nEXEMPEL: /WebTools)",
+  "Enter the port that this plugin should use for http. Do NOT use [1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414, 32469]": "Skriv in det portnummer som denna plug-in ska anv\u00e4nda f\u00f6r HTTP. Anv\u00e4nd EJ n\u00e5gon av f\u00f6ljande (de \u00e4r reserverade f\u00f6r Plex och dess plugins): 1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414 eller 32469.",
+  "Enter the port that this plugin should use for https. Do NOT use [1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414, 32469]": "Skriv in det portnummer som denna plug-in ska anv\u00e4nda f\u00f6r HTTPS. Anv\u00e4nd EJ n\u00e5gon av f\u00f6ljande (de \u00e4r reserverade f\u00f6r Plex och dess plugins): 1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414 eller 32469.",
+  "Name of Certificate crt file in Contents/Code/Certificate directory": "Namnet p\u00e5 certifikat crt-filen i Contents/Code/Certificate -mappen",
+  "Name of Certificate key file in Contents/Code/Certificate directory": "Namnet p\u00e5 certifikat-nyckeln i Contents/Code/Certificate -mappen",
+  "Select to force https": "V\u00e4lj f\u00f6r att tvinga HTTPS",
+  "To access this channel, type the url's below to a new browser tab": "F\u00f6r att f\u00e5 \u00e5tkomst till denna kanal, \u00f6ppna en av nedan adresser i din webbl\u00e4sare.<"
+}

@@ -10,8 +10,6 @@
 ```yaml
 version: "3.9"
 
-version: "3.9"
-
 x-common-env: &common-env
   restart: always
   environment:
@@ -27,33 +25,26 @@ services:
   samba:
     image: dperson/samba:rpi
     restart: always
-    command: '-u "${USER};{PASS}" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
+    command: '-u "${USER};{PASS}" -s "downloads;/downloads;yes;no"'
     stdin_open: true
     tty: true
-
     <<: *common-env
     volumes:
       - ${DOWNLOADS}:/downloads
     ports:
       - 139:130
       - 445:445
+
   plex:
     image: ghcr.io/linuxserver/plex:version-1.24.0.4930-ab6e1a058
     privileged: true
+    network: host
     <<: *common-env
-    ports:
-      - 32400:32400
-      - 1900:1900/udp
-      - 3005:3005
-      - 5353:5353/udp
-      - 8324:8324
-      - 32410:32410/udp
-      - 32412:32412/udp
-      - 32413:32413/udp
-      - 32414:32414/udp
-      - 32469:32469
     volumes:
+      - ./traktv-plugin:${PLEXPLUGINS}/Trakttv.bundle
       - ${CONFIGS}/plex:/config
+      - ${CONFIGS}/plex/db:${PLEXDB}
+      - ${CONFIGS}/plex/plugins:${PLEXPLUGINS}
       - ${CONFIGS}/plex/transcode:/transcode
       - ${MOVIES}:/movies
       - ${TV}:/tv

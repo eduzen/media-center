@@ -1,0 +1,9 @@
+{
+  "Base url if behind a Proxy. If not, leave as blank. (Base URL could be like: /WebTools)": "Basisadresse (hvis bak en proxy - hvis ikke, la det v\u00e6re tomt) (F.eks: /WebTools)",
+  "Enter the port that this plugin should use for http. Do NOT use [1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414, 32469]": "Skriv inn porten som dette tillegget skal bruke til http. IKKE bruk [1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414, 32469]",
+  "Enter the port that this plugin should use for https. Do NOT use [1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414, 32469]": "Skriv inn porten som dette tillegget skal bruke til https. IKKE bruk [1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414, 32469]",
+  "Name of Certificate crt file in Contents/Code/Certificate directory": "Filnavnet til crt sertifikatfila i Contents/Code/Certificate mappa",
+  "Name of Certificate key file in Contents/Code/Certificate directory": "Filnavnet til sertifikatn\u00f8kkelfile i Contents/Code/Certificate mappa",
+  "Select to force https": "Velg \u00e5 tving bruk av HTTPS",
+  "To access this channel, type the url's below to a new browser tab": "For \u00e5 f\u00e5 tilgang til denne kanalen, \u00e5pne en av nettadressene nedenfor i et nytt nettleservindu eller et vindu."
+}

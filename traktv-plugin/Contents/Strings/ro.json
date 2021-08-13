@@ -1,0 +1,9 @@
+{
+  "Base url if behind a Proxy. If not, leave as blank. (Base URL could be like: /WebTools)": " URL-ul de baz\u0103 (dac\u0103 este \u00een spatele unui proxy - dac\u0103 nu, l\u0103sa\u021bi necompletat).\nEXEMPLU: / WebTools) ",
+  "Enter the port that this plugin should use for http. Do NOT use [1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414, 32469]": " Introduce\u021bi num\u0103rul de port pe care acest plug-in ar trebui s\u0103 \u00eel utilizeze pentru HTTP. NU utiliza\u021bi oricare dintre urm\u0103toarele, care sunt rezervate pentru Plex \u0219i plugin-uri conexe:. 1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414 sau 32469 ",
+  "Enter the port that this plugin should use for https. Do NOT use [1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414, 32469]": " Introduce\u021bi num\u0103rul de port pe care acest plug-in ar trebui s\u0103 \u00eel utilizeze pentru HTTPS. NU utiliza\u021bi oricare dintre urm\u0103toarele, care sunt rezervate pentru Plex \u0219i plugin-uri conexe:. 1900, 3005, 5353, 8324, 32400, 32410, 32412, 32413, 32414 sau 32469 ",
+  "Name of Certificate crt file in Contents/Code/Certificate directory": " Numele fi\u0219ierului crt al certificatului \u00een directorul Cuprins / Cod / certificat ",
+  "Name of Certificate key file in Contents/Code/Certificate directory": " Numele fi\u0219ierului cheie de certificat din directorul Cuprins / Cod / certificat ",
+  "Select to force https": " Selecta\u021bi pentru a for\u021ba HTTPS ",
+  "To access this channel, type the url's below to a new browser tab": " Pentru a accesa acest canal, introduce\u021bi una dintre adresele URL de mai jos \u00eentr-o nou\u0103 fil\u0103 sau fereastr\u0103 browser. "
+}
