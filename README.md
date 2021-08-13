@@ -13,12 +13,12 @@
 
 Easy: first copy `.env.sample` to `.env` and fill it with your data. And then run `docker-compose up -d`
 
-- plex (http://<ip-of-rasp-or-vm>:9117/)[http://<ip-of-rasp-or-vm>:9117/]
-- qbittorrent (http://<ip-of-rasp-or-vm>:8080/)[http://<ip-of-rasp-or-vm>:8080/]
-- radarr: (http://<ip-of-rasp-or-vm>:6767/)[http://<ip-of-rasp-or-vm>:6767/]
-- sonarr: (http://<ip-of-rasp-or-vm>:8989/)[http://<ip-of-rasp-or-vm>:8989/]
-- Bazarr: (http://<ip-of-rasp-or-vm>:6767/)[http://<ip-of-rasp-or-vm>:6767/]
-- jackett: (http://<ip-of-rasp-or-vm>:9117/)[http://<ip-of-rasp-or-vm>:9117/]
+- plex [http://localhost:9117/](http://localhost:9117/)
+- qbittorrent [http://localhost:8080/](http://localhost:8080/)
+- radarr: [http://localhost:6767/](http://localhost:6767/)
+- sonarr: [http://localhost:8989/](http://localhost:8989/)
+- Bazarr: [http://localhost:6767/](http://localhost:6767/)
+- jackett: [http://localhost:9117/](http://localhost:9117/)
 
 ```yaml
 version: "3.9"
