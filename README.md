@@ -1,11 +1,24 @@
 # Media center
 
+- samba
 - plex
 - qbittorrent
 - radarr: for automaticly having movies
 - sonarr: for automaticly having tv shows
 - Bazarr: is a companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements.
 - jackett:  is a companion application to Sonarr and Radarr. Scraps torrents sites looking for the things that you want
+- traktv: for tracking what you watch
+
+## How to use?
+
+Easy: first copy `.env.sample` to `.env` and fill it with your data. And then run `docker-compose up -d`
+
+- plex (http://<ip-of-rasp-or-vm>:9117/)[http://<ip-of-rasp-or-vm>:9117/]
+- qbittorrent (http://<ip-of-rasp-or-vm>:8080/)[http://<ip-of-rasp-or-vm>:8080/]
+- radarr: (http://<ip-of-rasp-or-vm>:6767/)[http://<ip-of-rasp-or-vm>:6767/]
+- sonarr: (http://<ip-of-rasp-or-vm>:8989/)[http://<ip-of-rasp-or-vm>:8989/]
+- Bazarr: (http://<ip-of-rasp-or-vm>:6767/)[http://<ip-of-rasp-or-vm>:6767/]
+- jackett: (http://<ip-of-rasp-or-vm>:9117/)[http://<ip-of-rasp-or-vm>:9117/]
 
 ```yaml
 version: "3.9"
