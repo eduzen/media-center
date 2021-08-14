@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 
 x-common-env: &common-env
   restart: always
@@ -27,7 +27,7 @@ services:
   plex:
     image: ghcr.io/linuxserver/plex:version-1.24.0.4930-ab6e1a058
     privileged: true
-    network: host
+    network_mode: host
     <<: *common-env
     volumes:
       - ./traktv-plugin:${PLEXPLUGINS}/Trakttv.bundle
