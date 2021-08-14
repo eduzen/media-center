@@ -13,12 +13,28 @@
 
 Easy: first copy `.env.sample` to `.env` and fill it with your data. And then run `docker-compose up -d`
 
-- plex [http://localhost:9117/](http://localhost:9117/)
-- qbittorrent [http://localhost:8080/](http://localhost:8080/)
-- radarr: [http://localhost:6767/](http://localhost:6767/)
-- sonarr: [http://localhost:8989/](http://localhost:8989/)
-- Bazarr: [http://localhost:6767/](http://localhost:6767/)
-- jackett: [http://localhost:9117/](http://localhost:9117/)
+Maybe better to add a hostname to your raspi?
+
+`sudo vim /etc/hosts`
+
+```txt
+192.168.1.220   media.center
+```
+
+- plex [http://media.center:9117/](http://media.center:9117/)
+- qbittorrent [http://media.center:8080/](http://media.center:8080/)
+- radarr: [http://media.center:6767/](http://media.center:6767/)
+- sonarr: [http://media.center:8989/](http://media.center:8989/)
+- Bazarr: [http://media.center:6767/](http://media.center:6767/)
+- jackett: [http://media.center:9117/](http://media.center:9117/)
+
+
+## Mount samba
+
+```bash
+sudo mount -t cifs //media.center/downloads /mnt/samba/downloads -o credentials=~/.smbcredentials
+sudo mount -t cifs //media.center/configs /mnt/samba/configs -o credentials=~/.smbcredentials
+```
 
 ```yaml
 version: "3.8"
