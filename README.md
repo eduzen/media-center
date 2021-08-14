@@ -32,8 +32,8 @@ Maybe better to add a hostname to your raspi?
 ## Mount samba
 
 ```bash
-sudo mount -t cifs //media.center/downloads /mnt/samba/downloads -o credentials=~/.smbcredentials
-sudo mount -t cifs //media.center/configs /mnt/samba/configs -o credentials=~/.smbcredentials
+sudo mount -t cifs //media.center/downloads /mnt/samba/downloads -o credentials=$HOME/.smbcredentials,uid=$(id -u),gid=$(id -g)
+sudo mount -t cifs //media.center/configs /mnt/samba/configs -o credentials=$HOME/.smbcredentials,uid=$(id -u),gid=$(id -g)
 ```
 
 ```yaml
