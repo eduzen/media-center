@@ -6,31 +6,44 @@ x-common-env: &common-env
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=${TZ}
-    - UMASK=${UMASK}
+    # - UMASK=${UMASK}
     - WEBUI_PORT=${QBITTORRENT_WEBUI_PORT}
     - VERSION=docker
 
+volumes:
+  portainer_data:
+
 services:
+  portainer:
+    image: portainer/portainer
+    ports:
+      - 9000:9000
+      - 8000:8000
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
   samba:
     image: dperson/samba:rpi
     restart: always
-    command: '-u "${USER};{PASS}" -s "downloads;/downloads;yes;no"'
+    command: '-u "${USER};{PASS}" -s "downloads;/downloads;yes;no" -s "configs;/configs;yes;no"'
     stdin_open: true
     tty: true
     <<: *common-env
     volumes:
       - ${DOWNLOADS}:/downloads
+      - ${CONFIGS}:/configs
     ports:
       - 139:130
       - 445:445
 
   plex:
-    image: ghcr.io/linuxserver/plex:version-1.24.0.4930-ab6e1a058
+    image: ghcr.io/linuxserver/plex
     privileged: true
     network_mode: host
     <<: *common-env
     volumes:
-      - ./traktv-plugin:${PLEXPLUGINS}/Trakttv.bundle
+      # - ./traktv-plugin:${PLEXPLUGINS}/Trakttv.bundle
       - ${CONFIGS}/plex:/config
       - ${CONFIGS}/plex/db:${PLEXDB}
       - ${CONFIGS}/plex/plugins:${PLEXPLUGINS}
