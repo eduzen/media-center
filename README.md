@@ -21,7 +21,7 @@ Easy: first copy `.env.sample` to `.env` and fill it with your data. And then ru
 - jackett: [http://localhost:9117/](http://localhost:9117/)
 
 ```yaml
-version: "3.9"
+version: "3.8"
 
 x-common-env: &common-env
   restart: always
@@ -29,12 +29,11 @@ x-common-env: &common-env
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=${TZ}
-    - UMASK_SET=${UNMASK_SET}
-    - WEBUI_PORT={QBITTORRENT_WEBUI_PORT}
+    - UMASK=${UMASK}
+    - WEBUI_PORT=${QBITTORRENT_WEBUI_PORT}
     - VERSION=docker
 
 services:
-
   samba:
     image: dperson/samba:rpi
     restart: always
@@ -51,7 +50,7 @@ services:
   plex:
     image: ghcr.io/linuxserver/plex:version-1.24.0.4930-ab6e1a058
     privileged: true
-    network: host
+    network_mode: host
     <<: *common-env
     volumes:
       - ./traktv-plugin:${PLEXPLUGINS}/Trakttv.bundle
@@ -99,16 +98,14 @@ services:
       - 7878:7878
 
   # For automaticly having tv shows
-  # Another option is Medusa
   sonarr:
     image: linuxserver/sonarr:develop-version-3.0.6.1305
-    container_name: sonarr
     <<: *common-env
     volumes:
       - ${CONFIGS}/sonarr:/config
       - ${DOWNLOADS}:/downloads
       - ${TV}:/tv
-      ports:
+    ports:
       - 8989:8989
     links:
       - jackett
