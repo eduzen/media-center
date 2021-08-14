@@ -6,7 +6,7 @@ x-common-env: &common-env
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=${TZ}
-    - UMASK_SET=${UNMASK_SET}
+    - UMASK=${UMASK}
     - WEBUI_PORT=${QBITTORRENT_WEBUI_PORT}
     - VERSION=docker
 
@@ -77,7 +77,6 @@ services:
   # For automaticly having tv shows
   sonarr:
     image: linuxserver/sonarr:develop-version-3.0.6.1305
-    container_name: sonarr
     <<: *common-env
     volumes:
       - ${CONFIGS}/sonarr:/config
