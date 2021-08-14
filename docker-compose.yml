@@ -7,7 +7,7 @@ x-common-env: &common-env
     - PGID=${PGID}
     - TZ=${TZ}
     - UMASK_SET=${UNMASK_SET}
-    - WEBUI_PORT={QBITTORRENT_WEBUI_PORT}
+    - WEBUI_PORT=${QBITTORRENT_WEBUI_PORT}
     - VERSION=docker
 
 services:
