@@ -26,7 +26,7 @@ services:
   samba:
     image: dperson/samba:rpi
     restart: always
-    command: '-u "${USER};{PASS}" -s "downloads;/downloads;yes;no" -s "configs;/configs;yes;no"'
+    command: '-u "${USER};{PASS}" -s "downloads;/downloads;yes;no;yes" -s "configs;/configs;yes;no;yes"'
     stdin_open: true
     tty: true
     <<: *common-env
@@ -43,11 +43,12 @@ services:
     network_mode: host
     <<: *common-env
     volumes:
-      # - ./traktv-plugin:${PLEXPLUGINS}/Trakttv.bundle
+      - ./traktv-plugin:${PLEXPLUGINS}/Trakttv.bundle
       - ${CONFIGS}/plex:/config
       - ${CONFIGS}/plex/db:${PLEXDB}
       - ${CONFIGS}/plex/plugins:${PLEXPLUGINS}
       - ${CONFIGS}/plex/transcode:/transcode
+      - ${DOWNLOADS}:/downloads
       - ${MOVIES}:/movies
       - ${TV}:/tv
       - ${MUSIC}:/music
@@ -88,24 +89,35 @@ services:
       - 7878:7878
 
   # For automaticly having tv shows
-  sonarr:
-    image: linuxserver/sonarr:develop-version-3.0.6.1305
+  medusa:
+    image: ghcr.io/linuxserver/medusa
     <<: *common-env
     volumes:
-      - ${CONFIGS}/sonarr:/config
+      - ${CONFIGS}/medusa:/config
       - ${DOWNLOADS}:/downloads
       - ${TV}:/tv
     ports:
-      - 8989:8989
-    links:
-      - jackett
-      - qbittorrent
+      - 8081:8081
+
+  # sonarr:
+  #   image: linuxserver/sonarr
+  #   <<: *common-env
+  #   volumes:
+  #     - ${CONFIGS}/sonarr:/config
+  #     # - ./configs/sonarr/:/Applications\Programs\Data\Sonar
+  #     - ${DOWNLOADS}:/downloads
+  #     - ${TV}:/tv
+  #   ports:
+  #     - 8989:8989
+  #   links:
+  #     - jackett
+  #     - qbittorrent
 
   # Bazarr is a companion application to Sonarr and Radarr.
   # It can manage and download subtitles based on your requirements.
   # You define your preferences by TV show or movie and Bazarr takes care of everything for you.
   bazarr:
-    image: linuxserver/bazarr:development-version-v0.9.7
+    image: linuxserver/bazarr
     <<: *common-env
     volumes:
       - ${CONFIGS}/bazarr:/config
@@ -114,7 +126,7 @@ services:
     ports:
       - 6767:6767
     links:
-      - sonarr
+      # - sonarr
       - radarr
 
   # flexget:
