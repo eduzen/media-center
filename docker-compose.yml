@@ -26,7 +26,7 @@ services:
   samba:
     image: dperson/samba:rpi
     restart: always
-    command: '-u "${USER};{PASS}" -s "downloads;/downloads;yes;no;yes" -s "configs;/configs;yes;no;yes"'
+    command: '-u "${USER};${PASS}" -s "downloads;/downloads;yes;no;yes" -s "configs;/configs;yes;no;yes"'
     stdin_open: true
     tty: true
     <<: *common-env
